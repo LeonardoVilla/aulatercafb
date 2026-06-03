@@ -6,6 +6,7 @@ import { useCallback, useState } from "react";
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
+import { router } from "expo-router";
 
 interface Aluno {
   id: string;
@@ -18,7 +19,7 @@ export default function LstAluno() {
   const [alunos, setAlunos] = useState<Aluno[]>([]);
 
   const carregarAlunos = useCallback(async () => {
-    const snapshot = await getDocs(collection(db, "alunos"));
+    const snapshot = await getDocs(collection(db, "tb_alunos"));
     const lista: Aluno[] = snapshot.docs.map((d) => ({
       id: d.id,
       nome: d.data().nome,
@@ -31,7 +32,7 @@ export default function LstAluno() {
   useFocusRefresh(carregarAlunos);
 
   function editarAluno(id: string) {
-    // router.push({ pathname: "/altAluno", params: { id } });
+    router.push({ pathname: "/(tabs)/alt-aluno", params: { id } });
   }
 
   async function excluirAluno(id: string) {
